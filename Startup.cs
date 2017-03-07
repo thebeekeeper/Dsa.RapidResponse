@@ -16,6 +16,8 @@ namespace Dsa.RapidResponse
 {
     public class Startup
     {
+        private bool _isDevelopment;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -24,6 +26,7 @@ namespace Dsa.RapidResponse
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            _isDevelopment = env.IsDevelopment();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -34,12 +37,20 @@ namespace Dsa.RapidResponse
             // Add framework services.
             services.AddMvc();
             
-            //services.AddDbContext<IdentityDbContext>(options =>
-            services.AddDbContext<ComradeDbContext>(options =>
-                options.UseSqlite("Data Source=comrades.sqlite",
-                    optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
+            if(_isDevelopment)
+            {
+                services.AddDbContext<ComradeDbContext>(options =>
+                    options.UseSqlite("Data Source=comrades.sqlite",
+                        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
+            }
+            else
+            {
+                var connectionString = Configuration.GetConnectionString("defaultConnection");
+                services.AddDbContext<ComradeDbContext>(options =>
+                    options.UseSqlServer(connectionString,
+                        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
+            }
             services.AddIdentity<IdentityUser, IdentityRole>()
-                //.AddEntityFrameworkStores<IdentityDbContext>()
                 .AddEntityFrameworkStores<ComradeDbContext>()
                 .AddDefaultTokenProviders();
 
