@@ -1,0 +1,22 @@
+@model Dsa.RapidResponse.NewActionModel
+@{ ViewData["Title"] = "Initiate Action"; }
+
+<div id="container">
+
+    <form asp-controller="Initiate" asp-action="CreateAction" method="post" class="form-horizontal" role="form">
+        <h4>Create a new account.</h4>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Message" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Initiate Action!" />
+            </div>
+        </div>
+    </form> </div>
