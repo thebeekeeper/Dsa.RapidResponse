@@ -111,7 +111,8 @@ namespace Dsa.RapidResponse
 
             //await _messageService.Send(email, "Verify your email", $"Click <a href=\"{tokenVerificationUrl}\">here</a> to verify your email");
 
-            return Content("Check your email for a verification link");
+            //return Content("Check your email for a verification link");
+            return Redirect("~/Account/Login");
         }
 
         private readonly UserManager<IdentityUser> _userManager;
