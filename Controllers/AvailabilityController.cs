@@ -38,8 +38,8 @@ namespace Dsa.RapidResponse
                 select new AvailabilityModel()
                 {
                     DayOfWeek = y.DayOfWeek,
-                    Start = DateTime.Now.AddMinutes(y.StartMinute),
-                    End = DateTime.Now.AddMinutes(y.EndMinute),
+                    Start = TimeSpan.FromMinutes(y.StartMinute),
+                    End = TimeSpan.FromMinutes(y.EndMinute),
                 };
             return View(models);
         }
@@ -54,8 +54,8 @@ namespace Dsa.RapidResponse
                 {
                     User = u,
                     DayOfWeek = newItem.DayOfWeek,
-                    StartMinute = (newItem.Start.Hour * 60) + newItem.Start.Minute,
-                    EndMinute = (newItem.End.Hour * 60) + newItem.End.Minute,
+                    StartMinute = (long)newItem.Start.TotalMinutes,
+                    EndMinute = (long)newItem.End.TotalMinutes,
                 };
                 _context.Add(entity);
                 _context.SaveChanges();
@@ -71,7 +71,7 @@ namespace Dsa.RapidResponse
     {
         public int DayOfWeek { get; set; }
         // TimeSpan might work better for these, but I don't see a html helper for them
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public TimeSpan Start { get; set; }
+        public TimeSpan End { get; set; }
     }
 }
