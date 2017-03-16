@@ -34,7 +34,6 @@ namespace Dsa.RapidResponse
             var u = await _userManager.GetUserAsync(HttpContext.User);  
             u.PhoneNumber = phoneNumber; 
             var ir = await _userManager.UpdateAsync(u);
-            System.Diagnostics.Debug.WriteLine(ir.Succeeded);
             //var written = _context.SaveChanges();
             return Redirect("Index");
         }

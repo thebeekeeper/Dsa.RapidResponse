@@ -3,18 +3,15 @@
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-3">Rapid Response</h1>
-        <p>SEIZE THE MEANS OF COMPUTATION</p>
+        <p>SEIZE THE MEANS OF COMMUNICATION</p>
     </div>
 </div>
 
 <div class="row">
     @if (User.Identity.IsAuthenticated) {
-    <div>Upcoming Events</div>
-    <ul>
-        <li>Sample Event</li>
-    </ul>
+        <div>Welcome to being logged in...</div>
     }
     @if(User.IsInRole("Administrator")) {
-        <div>hello admin</div>
+        <div>Hello Administrator</div>
     }
 </div>
