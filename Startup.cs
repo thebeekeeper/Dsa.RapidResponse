@@ -16,6 +16,8 @@ namespace Dsa.RapidResponse
 {
     public class Startup
     {
+        // this was useful https://blogs.msdn.microsoft.com/cjaliaga/2016/08/10/working-with-azure-app-services-application-settings-and-connection-strings-in-asp-net-core/ 
+        // this seems like an unneccesary hack, but it works
         private bool _isDevelopment;
 
         public Startup(IHostingEnvironment env)
@@ -55,6 +57,7 @@ namespace Dsa.RapidResponse
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IMessagingService, SmsService>();
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

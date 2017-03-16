@@ -1,39 +1,49 @@
-@model Dsa.RapidResponse.AvailabilityModel
+@model IEnumerable<Dsa.RapidResponse.AvailabilityModel>
 
 <div id="container">
-    <form asp-controller="Availability" asp-action="Insert" method="post" class="form-horizontal" role="form">
-        <h2>Your Settings</h2>
-        <hr />
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="DayOfWeek" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <!--<input asp-for="DayOfWeek" class="form-control" />
-                <span asp-validation-for="DayOfWeek" class="text-danger"></span>-->
-                <select asp-for="DayOfWeek" class="form-control">
-                    <option value="0">Sunday</option>
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                    <option value="6">Saturday</option>
-                </select>
-            </div>
-            <label asp-for="Start" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Start" class="form-control" />
-                <span asp-validation-for="Start" class="text-danger"></span>
-            </div>
-            <label asp-for="End" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="End" class="form-control" />
-                <span asp-validation-for="End" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Update" />
-            </div>
-        </div>
-    </form> </div>
+    <h2>
+        Your Current Availability
+    </h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DayOfWeek)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.End)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfWeek)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start.TimeOfDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.End.TimeOfDay)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <div>
+        <p class="text-muted">
+            Click below to add a new time that you can be available to respond when needed.
+        </p>
+        <p>
+        <a asp-area-"" asp-controller="Availability" asp-action="Add">Add Availability</a>
+        </p>
+    </div>
+</div>
