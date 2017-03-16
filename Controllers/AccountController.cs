@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Security.Claims;
+using Dsa.RapidResponse.Services;
 using Dsa.RapidResponse.Implementations;
 
 // this mostly came from http://www.blinkingcaret.com/2016/11/30/asp-net-identity-core-from-scratch/
@@ -13,11 +14,11 @@ namespace Dsa.RapidResponse
 {
     public class AccountController : Controller
     {
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ComradeDbContext context)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailService emailService, ComradeDbContext context)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
-            //this._messageService = messageService;
+            this._messageService = emailService;
             _context = context;
         }
 
@@ -108,7 +109,7 @@ namespace Dsa.RapidResponse
             var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
             var tokenVerificationUrl = Url.Action("VerifyEmail", "Account", new { id = newUser.Id, token = emailConfirmationToken }, Request.Scheme);
 
-            //await _messageService.Send(email, "Verify your email", $"Click <a href=\"{tokenVerificationUrl}\">here</a> to verify your email");
+            _messageService.Send(email, $"Click <a href=\"{tokenVerificationUrl}\">here</a> to verify your email");
 
             //return Content("Check your email for a verification link");
             return Redirect("~/Account/Login");
@@ -116,7 +117,7 @@ namespace Dsa.RapidResponse
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        //private readonly IMessageService _messageService;
+        private readonly IEmailService _messageService;
         private readonly ComradeDbContext _context;
     }
 }

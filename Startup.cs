@@ -57,6 +57,7 @@ namespace Dsa.RapidResponse
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IMessagingService, SmsService>();
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
