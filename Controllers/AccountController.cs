@@ -25,15 +25,15 @@ namespace Dsa.RapidResponse
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
-            var u = await _userManager.GetUserAsync(HttpContext.User);  
+            var u = await _userManager.GetUserAsync(HttpContext.User);
             return View(u);
         }
 
         //public async Task<IActionResult> UpdateSettings(IdentityUser user)
         public async Task<IActionResult> UpdateSettings(string phoneNumber)
         {
-            var u = await _userManager.GetUserAsync(HttpContext.User);  
-            u.PhoneNumber = phoneNumber; 
+            var u = await _userManager.GetUserAsync(HttpContext.User);
+            u.PhoneNumber = phoneNumber;
             var ir = await _userManager.UpdateAsync(u);
             //var written = _context.SaveChanges();
             return Redirect("Index");
@@ -113,6 +113,19 @@ namespace Dsa.RapidResponse
 
             //return Content("Check your email for a verification link");
             return Redirect("~/Account/Login");
+        }
+
+        public async Task<IActionResult> VerifyEmail(string id, string token)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                throw new InvalidOperationException();
+
+            var emailConfirmationResult = await _userManager.ConfirmEmailAsync(user, token);
+            if (!emailConfirmationResult.Succeeded)
+                return Content(emailConfirmationResult.Errors.Select(error => error.Description).Aggregate((allErrors, error) => allErrors += ", " + error));
+
+            return Content("Email confirmed, you can now log in");
         }
 
         private readonly UserManager<IdentityUser> _userManager;

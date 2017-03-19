@@ -8,7 +8,7 @@ namespace Dsa.RapidResponse.Services
     public class Availability
     {
         public int Id { get; set; }
-        public IdentityUser User { get; set; }
+        public virtual IdentityUser User { get; set; }
         public long StartMinute { get; set; }
         public long EndMinute { get; set; }
         public int DayOfWeek { get; set; }

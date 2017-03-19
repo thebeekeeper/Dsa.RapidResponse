@@ -26,6 +26,17 @@ namespace Dsa.RapidResponse
             return View();
         }
 
+        public IActionResult Delete(int id)
+        {
+            var entity = _context.Availabilities.FirstOrDefault(a => a.Id == id);
+            if(entity != default(Availability))
+            {
+                _context.Availabilities.Remove(entity);
+                _context.SaveChanges();
+            }
+            return Redirect("~");
+        }
+
         public async Task<IActionResult> Index()
         {
             var u = await _userManager.GetUserAsync(HttpContext.User);
@@ -33,6 +44,7 @@ namespace Dsa.RapidResponse
             var models = (from y in a
                 select new AvailabilityModel()
                 {
+                    Id = y.Id,
                     DayOfWeek = _days[y.DayOfWeek],
                     Start = DateTime.Today.AddMinutes(y.StartMinute),
                     End = DateTime.Today.AddMinutes(y.EndMinute),
@@ -69,6 +81,8 @@ namespace Dsa.RapidResponse
 
     public class AvailabilityModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Day of the week")]
         public string DayOfWeek { get; set; }
         // TimeSpan might work better for these, but I don't see a html helper for them
