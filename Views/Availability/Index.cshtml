@@ -8,6 +8,9 @@
     <thead>
         <tr>
             <th>
+                Edit
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DayOfWeek)
             </th>
             <th>
@@ -23,6 +26,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <a asp-area-"" asp-controller="Availability" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DayOfWeek)
                 </td>
