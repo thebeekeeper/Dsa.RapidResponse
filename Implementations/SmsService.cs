@@ -12,21 +12,21 @@ namespace Dsa.RapidResponse.Implementations
     {
         async void IMessagingService.SendMessage(string destination, string message)
         {
-            var values = new Dictionary<string, string>
-            {
-                { "number", destination },
-                { "message", message },
-                { "key", "key goes here" },
-            };
             var apiKey = System.Environment.GetEnvironmentVariable("TEXTBELT_APIKEY");
-            Console.WriteLine(apiKey);
 
             if (string.IsNullOrEmpty(apiKey) == false)
             {
+
+                var values = new Dictionary<string, string>
+                {
+                    { "number", destination },
+                    { "message", message },
+                    { "key", apiKey },
+                };
                 var content = new FormUrlEncodedContent(values);
                 var c = new HttpClient();
                 var resp = await c.PostAsync("https://textbelt.com/text", new FormUrlEncodedContent(values));
-                Console.WriteLine(resp.StatusCode);
+                Console.WriteLine(resp.Content.ReadAsStringAsync().Result);
             }
         }
     }
