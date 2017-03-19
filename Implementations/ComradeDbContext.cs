@@ -10,7 +10,8 @@ namespace Dsa.RapidResponse.Implementations
         {
         }*/
         public ComradeDbContext(DbContextOptions options) : base(options)
-        {}
+        {
+        }
 
         //public DbSet<Comrade> Comrades { get; set; }
         public DbSet<Availability> Availabilities { get; set; }

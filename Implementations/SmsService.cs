@@ -10,22 +10,24 @@ namespace Dsa.RapidResponse.Implementations
 {
     public class SmsService : IMessagingService
     {
-        async void IMessagingService.SendMessage(string message)
+        async void IMessagingService.SendMessage(string destination, string message)
         {
-#if RELEASE
-            var number = "";
             var values = new Dictionary<string, string>
             {
-                { "number", number },
+                { "number", destination },
                 { "message", message },
                 { "key", "key goes here" },
             };
+            var apiKey = System.Environment.GetEnvironmentVariable("TEXTBELT_APIKEY");
+            Console.WriteLine(apiKey);
 
-            var content = new FormUrlEncodedContent(values);
-            var c = new HttpClient();
-            var resp = await c.PostAsync("https://textbelt.com/text", new FormUrlEncodedContent(values));
-            Console.WriteLine(resp.StatusCode);
-#endif
+            if (string.IsNullOrEmpty(apiKey) == false)
+            {
+                var content = new FormUrlEncodedContent(values);
+                var c = new HttpClient();
+                var resp = await c.PostAsync("https://textbelt.com/text", new FormUrlEncodedContent(values));
+                Console.WriteLine(resp.StatusCode);
+            }
         }
     }
 }
