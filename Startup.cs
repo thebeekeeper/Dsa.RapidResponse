@@ -93,8 +93,6 @@ namespace Dsa.RapidResponse
     {
         public static void Init(ComradeDbContext context)
         {
-            context.Database.EnsureCreated();
-
             var u = context.Users.FirstOrDefault();
             if(u == null)
             {
@@ -102,9 +100,10 @@ namespace Dsa.RapidResponse
             }
             else
             {
-                //u.PhoneNumber = "3126361051";
+                // TODO: build in a root user
+                //await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Role, "Administrator"));
             }
-            context.SaveChanges();
+            //context.SaveChanges();
         }
     }
 }

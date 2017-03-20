@@ -1,0 +1,49 @@
+@model IEnumerable<Dsa.RapidResponse.Services.Event>
+
+<div id="container">
+    <h2>
+        Current Events
+    </h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Edit
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-area-"" asp-controller="Management" asp-action="DeleteEvent" asp-route-id="@item.Id">Delete</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <div>
+        <p class="text-muted">
+            Click below to add a new event
+        </p>
+        <p>
+        <a asp-area-"" asp-controller="Management" asp-action="AddEvent">Add Event</a>
+        </p>
+    </div>
+</div>
