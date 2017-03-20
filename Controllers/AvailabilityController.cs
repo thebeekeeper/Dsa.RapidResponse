@@ -34,7 +34,8 @@ namespace Dsa.RapidResponse
                 _context.Availabilities.Remove(entity);
                 _context.SaveChanges();
             }
-            return Redirect("~");
+            // There was something weird here about it redirecting to this method infinitely
+            return Redirect("/Availability");
         }
 
         public async Task<IActionResult> Index()
