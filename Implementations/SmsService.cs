@@ -26,6 +26,8 @@ namespace Dsa.RapidResponse.Implementations
                 var c = new HttpClient();
                 var resp = await c.PostAsync("https://textbelt.com/text", new FormUrlEncodedContent(values));
                 Console.WriteLine(resp.Content.ReadAsStringAsync().Result);
+                // textbelt says you shouldn't send more than 1/sec
+                await Task.Delay(1000);
             }
         }
     }

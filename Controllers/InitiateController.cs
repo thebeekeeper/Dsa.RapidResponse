@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
 using Dsa.RapidResponse.Services;
@@ -16,10 +17,11 @@ namespace Dsa.RapidResponse
     [Authorize(Roles = "Administrator")]
     public class InitiateController : Controller
     {
-        public InitiateController(IMessagingService messaging, ComradeDbContext db)
+        public InitiateController(IMessagingService messaging, ComradeDbContext db, UserManager<IdentityUser> userManager)
         {
             _messaging = messaging;
             _db = db;
+            _userManager = userManager;
         }
 
         // GET: /<controller>/
@@ -39,7 +41,7 @@ namespace Dsa.RapidResponse
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateAction(NewActionModel model)
+        public async Task<IActionResult> CreateAction(NewActionModel model)
         {
             var availableUsers = GetAvailableUsers();
             // this should create a comfirmation page before sending the messages
@@ -52,13 +54,15 @@ namespace Dsa.RapidResponse
                         _messaging.SendMessage(a.PhoneNumber, model.Message);
                     }
                 }
+                var u = await _userManager.GetUserAsync(HttpContext.User);
+                _messaging.SendMessage(u.PhoneNumber, "Message Sent: " + model.Message);
             }
             return RedirectToAction("Progress");
         }
 
         public IActionResult Progress()
         {
-            return Content("working on it");
+            return View();
         }
 
         private IList<IdentityUser> GetAvailableUsers()
@@ -76,6 +80,7 @@ namespace Dsa.RapidResponse
 
         private readonly IMessagingService _messaging;
         private readonly ComradeDbContext _db;
+        private UserManager<IdentityUser> _userManager;
     }
 
     public class NewActionModel
