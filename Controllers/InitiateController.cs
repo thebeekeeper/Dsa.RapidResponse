@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
 using Dsa.RapidResponse.Services;
 using Dsa.RapidResponse.Implementations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +25,15 @@ namespace Dsa.RapidResponse
         // GET: /<controller>/
         public IActionResult Index()
         {
+            var availableUsers = GetAvailableUsers();
+
+            var m = from a in availableUsers select new ConfirmActionModel() { UserEmail = a.Email, UserPhone = a.PhoneNumber };
+            return View(m);
+        }
+
+        // GET
+        public IActionResult CreateAction()
+        {
             return View();
         }
 
@@ -31,32 +41,37 @@ namespace Dsa.RapidResponse
         [ValidateAntiForgeryToken]
         public IActionResult CreateAction(NewActionModel model)
         {
+            var availableUsers = GetAvailableUsers();
             // this should create a comfirmation page before sending the messages
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && availableUsers != null)
             {
-                var now = DateTime.Now.TimeOfDay;
-                var day = (int)DateTime.Now.DayOfWeek;
-                // figure out who is available right now
-                var available = (from a in _db.Availabilities
-                    where a.DayOfWeek == day
-                    where a.StartMinute < now.TotalMinutes
-                    where a.EndMinute > now.TotalMinutes
-                    //where string.IsNullOrEmpty(a.User.Id) == false
-                    select a.User).Distinct().ToList();
-
-                // and send them a message
-                /*foreach (var a in available)
+                foreach (var a in availableUsers)
                 {
-                    if(string.IsNullOrEmpty(a.PhoneNumber) == false)
+                    if (string.IsNullOrEmpty(a.PhoneNumber) == false)
                     {
                         _messaging.SendMessage(a.PhoneNumber, model.Message);
                     }
-                }*/
-                var m = from a in available select new ConfirmActionModel() { UserEmail = a.Email, UserPhone = a.PhoneNumber};
-                return View(m);
+                }
             }
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Progress");
+        }
+
+        public IActionResult Progress()
+        {
+            return Content("working on it");
+        }
+
+        private IList<IdentityUser> GetAvailableUsers()
+        {
+            var now = DateTime.Now.TimeOfDay;
+            var day = (int)DateTime.Now.DayOfWeek;
+            // figure out who is available right now
+            var availableUsers = (from a in _db.Availabilities
+                               where a.DayOfWeek == day
+                               where a.StartMinute < now.TotalMinutes
+                               where a.EndMinute > now.TotalMinutes
+                               select a.User).Distinct().ToList();
+            return availableUsers;
         }
 
         private readonly IMessagingService _messaging;
@@ -65,7 +80,7 @@ namespace Dsa.RapidResponse
 
     public class NewActionModel
     {
-        public string Message {get;set;}
+        public string Message { get; set; }
     }
 
     public class ConfirmActionModel

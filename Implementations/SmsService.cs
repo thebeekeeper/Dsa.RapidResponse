@@ -16,7 +16,6 @@ namespace Dsa.RapidResponse.Implementations
 
             if (string.IsNullOrEmpty(apiKey) == false)
             {
-
                 var values = new Dictionary<string, string>
                 {
                     { "number", destination },
