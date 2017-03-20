@@ -45,13 +45,15 @@ namespace Dsa.RapidResponse
                     select a.User).Distinct().ToList();
 
                 // and send them a message
-                foreach (var a in available)
+                /*foreach (var a in available)
                 {
                     if(string.IsNullOrEmpty(a.PhoneNumber) == false)
                     {
                         _messaging.SendMessage(a.PhoneNumber, model.Message);
                     }
-                }
+                }*/
+                var m = from a in available select new ConfirmActionModel() { UserEmail = a.Email, UserPhone = a.PhoneNumber};
+                return View(m);
             }
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -64,5 +66,11 @@ namespace Dsa.RapidResponse
     public class NewActionModel
     {
         public string Message {get;set;}
+    }
+
+    public class ConfirmActionModel
+    {
+        public string UserEmail { get; set; }
+        public string UserPhone { get; set; }
     }
 }

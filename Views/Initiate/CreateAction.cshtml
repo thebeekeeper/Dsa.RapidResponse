@@ -1,1 +1,47 @@
-it probably worked
+@model IEnumerable<Dsa.RapidResponse.ConfirmActionModel>
+@{ ViewData["Title"] = "Initiate Action"; }
+
+<div id="container">
+    <h2>
+        Confirm Message
+    </h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserPhone)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserPhone)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <div>
+        <p>
+        Message will be sent to @Model.Count() people
+        </p>
+        <p>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Initiate Action!" />
+            </div>
+        </div>
+        </p>
+
+    </div>
+
+</div>
