@@ -32,26 +32,6 @@ namespace Dsa.RapidResponse
             return View();
         }
 
-        public IActionResult Events()
-        {
-            var events = _db.Events;
-            return View(events);
-        }
-
-        // GET
-        public IActionResult AddEvent()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddEvent(Event evt)
-        {
-            return Redirect("/");
-        }
-
         private ComradeDbContext _db;
         private UserManager<IdentityUser> _userManager;
     }

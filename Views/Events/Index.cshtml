@@ -8,7 +8,6 @@
     <thead>
         <tr>
             <th>
-                Edit
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Time)
@@ -16,7 +15,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th></th>
+            @if(User.IsInRole("Administrator")) {
+                <th>
+                    Edit
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -24,7 +27,7 @@
         {
             <tr>
                 <td>
-                    <a asp-area-"" asp-controller="Management" asp-action="DeleteEvent" asp-route-id="@item.Id">Delete</a>
+                    <a asp-area-"" asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Time)
@@ -32,18 +35,23 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
-                <td>
-                </td>
+                @if(User.IsInRole("Administrator")) {
+                    <td>
+                        <a asp-area-"" asp-controller="Events" asp-action="DeleteEvent" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
             </tr>
         }
     </tbody>
 </table>
+@if(User.IsInRole("Administrator")) {
     <div>
         <p class="text-muted">
             Click below to add a new event
         </p>
         <p>
-        <a asp-area-"" asp-controller="Management" asp-action="AddEvent">Add Event</a>
+        <a asp-area-"" asp-controller="Events" asp-action="AddEvent">Add Event</a>
         </p>
     </div>
+}
 </div>

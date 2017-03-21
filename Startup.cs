@@ -1,4 +1,7 @@
 using System;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,7 +64,7 @@ namespace Dsa.RapidResponse
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ComradeDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ComradeDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -85,25 +88,24 @@ namespace Dsa.RapidResponse
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            DbInit.Init(dbContext);
+            DbInit.Init(dbContext, userManager);
         }
     }
 
     public class DbInit
     {
-        public static void Init(ComradeDbContext context)
+        public static void Init(ComradeDbContext context, UserManager<IdentityUser> userManager)
         {
-            var u = context.Users.FirstOrDefault();
+            var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
             if(u == null)
             {
                 System.Diagnostics.Debug.WriteLine("no user");
             }
             else
             {
-                // TODO: build in a root user
-                //await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Role, "Administrator"));
+                var r = userManager.AddClaimAsync(u, new Claim(ClaimTypes.Role, "Administrator")).Result;
+                System.Diagnostics.Debug.WriteLine(r.Succeeded);
             }
-            //context.SaveChanges();
         }
     }
 }

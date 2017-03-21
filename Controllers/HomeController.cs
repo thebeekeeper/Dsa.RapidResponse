@@ -16,7 +16,7 @@ namespace Dsa.RapidResponse.Controllers
 
         public IActionResult Index()
         {
-            var upcoming = _db.Events.Where(e => (e.Time - DateTime.Now).Days < 10);
+            var upcoming = _db.Events.Where(e => (e.Time - DateTime.Now).Days < 10).Where(e => e.Time > DateTime.Now);
             return View(upcoming);
         }
 
