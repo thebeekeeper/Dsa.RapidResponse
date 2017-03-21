@@ -1,3 +1,4 @@
+@model IEnumerable<Dsa.RapidResponse.Services.Event>
 @{ ViewData["Title"] = "Home Page"; }
 
 <div class="jumbotron">
@@ -8,10 +9,11 @@
 </div>
 
 <div class="row">
-    @if (User.Identity.IsAuthenticated) {
-        <div>Welcome to being logged in...</div>
+    <h3><a asp-area-"" asp-controller="Events" asp-action="Index">Upcoming Events</a></h3>
+    <ul>
+    @foreach(var item in @Model)
+    {
+        <li>@item.Time: @item.Title</li>
     }
-    @if(User.IsInRole("Administrator")) {
-        <div>Hello Administrator</div>
-    }
+    </ul>
 </div>

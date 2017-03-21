@@ -1,22 +1,48 @@
-@model Dsa.RapidResponse.NewActionModel
+@model IEnumerable<Dsa.RapidResponse.ConfirmActionModel>
 @{ ViewData["Title"] = "Initiate Action"; }
 
 <div id="container">
-
-    <form asp-controller="Initiate" asp-action="CreateAction" method="post" class="form-horizontal" role="form">
-        <h4>Create a new account.</h4>
-        <hr />
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Message" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Message" class="form-control" />
-                <span asp-validation-for="Message" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
+    <h2>
+        Confirm Message
+    </h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email Address
+            </th>
+            <th>
+                Phone Number
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserPhone)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <div>
+        <p>
+            There are currently @Model.Count() people available to respond right now
+        </p>
+        <p>
+        <!--<div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-default" value="Initiate Action!" />
             </div>
-        </div>
-    </form> </div>
+        </div>-->
+            <a asp-area="" asp-controller="Initiate" asp-action="CreateAction">Initiate Action</a>
+        </p>
+
+    </div>
+
+</div>

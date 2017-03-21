@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Dsa.RapidResponse.Implementations;
 
 namespace Dsa.RapidResponse.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController(ComradeDbContext db)
+        {
+            _db = db;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var upcoming = _db.Events.Where(e => (e.Time - DateTime.Now).Days < 10).Where(e => e.Time > DateTime.Now);
+            return View(upcoming);
         }
 
         public IActionResult About()
@@ -31,5 +38,7 @@ namespace Dsa.RapidResponse.Controllers
         {
             return View();
         }
+
+        private ComradeDbContext _db;
     }
 }
