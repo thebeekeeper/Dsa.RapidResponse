@@ -88,7 +88,7 @@ namespace Dsa.RapidResponse
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            DbInit.Init(dbContext, userManager);
+            //DbInit.Init(dbContext, userManager);
         }
     }
 
