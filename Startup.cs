@@ -42,7 +42,8 @@ namespace Dsa.RapidResponse
             // Add framework services.
             services.AddMvc();
             
-            if(_isDevelopment)
+            //if(_isDevelopment)
+            if(false)
             {
                 services.AddDbContext<ComradeDbContext>(options =>
                     options.UseSqlite("Data Source=comrades.sqlite",
