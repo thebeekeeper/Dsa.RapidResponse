@@ -96,6 +96,7 @@ namespace Dsa.RapidResponse
     {
         public static void Init(ComradeDbContext context, UserManager<IdentityUser> userManager)
         {
+            context.Database.Migrate()
             var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
             if(u == null)
             {
