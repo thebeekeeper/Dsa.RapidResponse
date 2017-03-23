@@ -8,13 +8,14 @@ using Dsa.RapidResponse.Implementations;
 namespace Dsa.RapidResponse.Migrations
 {
     [DbContext(typeof(ComradeDbContext))]
-    [Migration("20170323231824_tablekeys")]
-    partial class tablekeys
+    [Migration("20170323234551_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Dsa.RapidResponse.Services.Availability", b =>
                 {

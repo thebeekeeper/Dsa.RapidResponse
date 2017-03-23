@@ -9,7 +9,7 @@ namespace Dsa.RapidResponse.Services
     // store availability ranges as start/end times on a day of the week
     public class Availability
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         //[Key]
         public int Id { get; set; }
         public virtual IdentityUser User { get; set; }
