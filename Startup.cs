@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Dsa.RapidResponse.Services;
 using Dsa.RapidResponse.Implementations;
@@ -70,15 +69,15 @@ namespace Dsa.RapidResponse
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-            }
+            /*}
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-            }
+            }*/
 
             app.UseStaticFiles();
             app.UseIdentity();
@@ -98,6 +97,7 @@ namespace Dsa.RapidResponse
         public static void Init(ComradeDbContext context, UserManager<IdentityUser> userManager)
         {
             context.Database.Migrate();
+
             /*var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
             if(u == null)
             {

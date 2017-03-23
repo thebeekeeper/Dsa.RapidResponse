@@ -8,7 +8,7 @@ using Dsa.RapidResponse.Implementations;
 namespace Dsa.RapidResponse.Migrations
 {
     [DbContext(typeof(ComradeDbContext))]
-    [Migration("20170301224145_initial")]
+    [Migration("20170323220329_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,22 @@ namespace Dsa.RapidResponse.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Availability");
+                });
+
+            modelBuilder.Entity("Dsa.RapidResponse.Services.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Details");
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
