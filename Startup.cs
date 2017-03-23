@@ -50,9 +50,10 @@ namespace Dsa.RapidResponse
             else
             {
                 var connectionString = Configuration.GetConnectionString("defaultConnection");
-                services.AddDbContext<ComradeDbContext>(options =>
-                    options.UseSqlServer(connectionString,
-                        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
+                services.AddDbContext<ComradeDbContext>(options => options.UseSqlServer(connectionString));
+                //services.AddDbContext<ComradeDbContext>(options =>
+                //    options.UseSqlServer(connectionString,
+                //        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
             }
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ComradeDbContext>()
