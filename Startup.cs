@@ -41,7 +41,8 @@ namespace Dsa.RapidResponse
             // Add framework services.
             services.AddMvc();
             
-            if(_isDevelopment)
+            //if(_isDevelopment)
+            if(false)
             {
                 services.AddDbContext<ComradeDbContext>(options =>
                     options.UseSqlite("Data Source=comrades.sqlite",
@@ -96,7 +97,8 @@ namespace Dsa.RapidResponse
         public static void Init(ComradeDbContext context, UserManager<IdentityUser> userManager)
         {
             context.Database.Migrate();
-            var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
+
+            /*var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
             if(u == null)
             {
                 System.Diagnostics.Debug.WriteLine("no user");
@@ -105,7 +107,7 @@ namespace Dsa.RapidResponse
             {
                 var r = userManager.AddClaimAsync(u, new Claim(ClaimTypes.Role, "Administrator")).Result;
                 System.Diagnostics.Debug.WriteLine(r.Succeeded);
-            }
+            }*/
         }
     }
 }
