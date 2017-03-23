@@ -41,12 +41,12 @@ namespace Dsa.RapidResponse
             // Add framework services.
             services.AddMvc();
             
-            //if(_isDevelopment)
-            if(false)
+            if(_isDevelopment)
             {
                 services.AddDbContext<ComradeDbContext>(options =>
-                    options.UseSqlite("Data Source=comrades.sqlite",
-                        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
+                    options.UseSqlite("Data Source=comrades.sqlite"));
+                    //options.UseSqlite("Data Source=comrades.sqlite",
+                    //    optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
             }
             else
             {
@@ -99,7 +99,9 @@ namespace Dsa.RapidResponse
         {
             context.Database.Migrate();
 
-            /*var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
+            //var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
+            /*var u = userManager.FindByEmailAsync("admin@test.com").Result;
+
             if(u == null)
             {
                 System.Diagnostics.Debug.WriteLine("no user");
