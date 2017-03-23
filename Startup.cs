@@ -41,7 +41,7 @@ namespace Dsa.RapidResponse
             // Add framework services.
             services.AddMvc();
             
-            if(_isDevelopment)
+            /*if(_isDevelopment)
             {
                 services.AddDbContext<ComradeDbContext>(options =>
                     options.UseSqlite("Data Source=comrades.sqlite"));
@@ -49,13 +49,15 @@ namespace Dsa.RapidResponse
                     //    optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
             }
             else
-            {
+            {*/
                 var connectionString = Configuration.GetConnectionString("defaultConnection");
+            if (string.IsNullOrEmpty(connectionString))
+                connectionString = "Test";
                 services.AddDbContext<ComradeDbContext>(options => options.UseSqlServer(connectionString));
                 //services.AddDbContext<ComradeDbContext>(options =>
                 //    options.UseSqlServer(connectionString,
                 //        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
-            }
+            //}
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ComradeDbContext>()
                 .AddDefaultTokenProviders();
