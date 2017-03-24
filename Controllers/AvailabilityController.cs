@@ -47,9 +47,9 @@ namespace Dsa.RapidResponse
                 {
                     Id = y.Id,
                     DayOfWeek = _days[y.DayOfWeek],
-                    Start = DateTime.Today.AddMinutes(y.StartMinute),
-                    End = DateTime.Today.AddMinutes(y.EndMinute),
-                }).OrderBy(m => m.DayOfWeek);
+                    Start = DateTime.Today.AddMinutes((double)y.StartMinute),
+                    End = DateTime.Today.AddMinutes((double)y.EndMinute),
+                }).OrderBy(m => m.DayOfWeek).ToList();
             return View(models);
         }
 
