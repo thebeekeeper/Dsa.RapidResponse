@@ -40,24 +40,12 @@ namespace Dsa.RapidResponse
         {
             // Add framework services.
             services.AddMvc();
-            
-            /*if(_isDevelopment)
-            {
-                services.AddDbContext<ComradeDbContext>(options =>
-                    options.UseSqlite("Data Source=comrades.sqlite"));
-                    //options.UseSqlite("Data Source=comrades.sqlite",
-                    //    optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
-            }
-            else
-            {*/
-                var connectionString = Configuration.GetConnectionString("defaultConnection");
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             if (string.IsNullOrEmpty(connectionString))
-                connectionString = "Test";
-                services.AddDbContext<ComradeDbContext>(options => options.UseSqlServer(connectionString));
-                //services.AddDbContext<ComradeDbContext>(options =>
-                //    options.UseSqlServer(connectionString,
-                //        optionsBuilder => optionsBuilder.MigrationsAssembly("Dsa.RapidResponse")));
-            //}
+                throw new Exception("Connection string not found");
+
+            services.AddDbContext<ComradeDbContext>(options => options.UseSqlServer(connectionString));
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ComradeDbContext>()
                 .AddDefaultTokenProviders();
@@ -100,19 +88,6 @@ namespace Dsa.RapidResponse
         public static void Init(ComradeDbContext context, UserManager<IdentityUser> userManager)
         {
             context.Database.Migrate();
-
-            //var u = userManager.FindByEmailAsync("thebeekeeper@gmail.com").Result;
-            /*var u = userManager.FindByEmailAsync("admin@test.com").Result;
-
-            if(u == null)
-            {
-                System.Diagnostics.Debug.WriteLine("no user");
-            }
-            else
-            {
-                var r = userManager.AddClaimAsync(u, new Claim(ClaimTypes.Role, "Administrator")).Result;
-                System.Diagnostics.Debug.WriteLine(r.Succeeded);
-            }*/
         }
     }
 }
