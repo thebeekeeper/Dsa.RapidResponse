@@ -8,11 +8,15 @@
     <h4>
         When: @Model.Time
     </h4>
-
+    <h4>
+        <a href="@Model.ExternalLink">Link</a>
+    </h4>
     <h3>
         Details
     </h3>
     <p>
-        @Model.Details
+        <markdown>
+            @Html.Raw(Model.Details)
+        </markdown>
     </p>
 </div>
