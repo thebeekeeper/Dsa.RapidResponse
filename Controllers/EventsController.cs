@@ -56,6 +56,24 @@ namespace Dsa.RapidResponse
             return RedirectToAction("Index");
         }
 
+        // GET
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Edit(int id)
+        {
+            var evt = _db.Events.FirstOrDefault(e => e.Id == id);
+            return View(evt);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Edit(Event evt)
+        {
+            _db.Events.Update(evt);
+            _db.SaveChanges();
+            return RedirectToAction("Details", new { id = evt.Id });
+        }
+
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteEvent(int id)
         {

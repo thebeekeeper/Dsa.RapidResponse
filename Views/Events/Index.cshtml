@@ -38,6 +38,9 @@
                 @if(User.IsInRole("Administrator")) {
                     <td>
                         <a asp-area-"" asp-controller="Events" asp-action="DeleteEvent" asp-route-id="@item.Id">Delete</a>
+                    <!--</td>
+                    <td>-->
+                        <a asp-area-"" asp-controller="Events" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     </td>
                 }
             </tr>

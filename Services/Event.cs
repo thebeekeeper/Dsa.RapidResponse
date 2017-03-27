@@ -9,11 +9,10 @@ namespace Dsa.RapidResponse.Services
 {
     public class Event
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //[Key]
         public int Id { get; set; }
         public DateTime Time { get; set; }
         public string Title { get; set; }
+        public string ExternalLink { get; set; }
         public string Details { get; set; }
     }
 }
