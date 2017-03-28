@@ -14,9 +14,10 @@ namespace Dsa.RapidResponse
 {
     public class EventsController : Controller
     {
-        public EventsController(ComradeDbContext db)
+        public EventsController(ComradeDbContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -86,7 +87,17 @@ namespace Dsa.RapidResponse
             return RedirectToAction("Index");
         }
 
-        private ComradeDbContext _db;
+        public async Task<IActionResult> SignUp(int id)
+        {
+            /*var evt = _db.Events.FirstOrDefault(e => e.Id == id);
+            var u = await _userManager.GetUserAsync(HttpContext.User);
+            evt.Users.Add(u);
+            _db.SaveChanges();*/
+            
+            return Redirect("/");
+        }
 
+        private ComradeDbContext _db;
+        private UserManager<ApplicationUser> _userManager;
     }
 }

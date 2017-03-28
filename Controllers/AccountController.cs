@@ -14,7 +14,7 @@ namespace Dsa.RapidResponse
 {
     public class AccountController : Controller
     {
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailService emailService, ComradeDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailService emailService, ComradeDbContext context)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
@@ -29,7 +29,6 @@ namespace Dsa.RapidResponse
             return View(u);
         }
 
-        //public async Task<IActionResult> UpdateSettings(IdentityUser user)
         public async Task<IActionResult> UpdateSettings(string phoneNumber)
         {
             var u = await _userManager.GetUserAsync(HttpContext.User);
@@ -90,7 +89,7 @@ namespace Dsa.RapidResponse
                 return View();
             }
 
-            var newUser = new IdentityUser
+            var newUser = new ApplicationUser
             {
                 UserName = email,
                 Email = email
@@ -128,8 +127,8 @@ namespace Dsa.RapidResponse
             return Content("Email confirmed, you can now log in");
         }
 
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _messageService;
         private readonly ComradeDbContext _context;
     }

@@ -17,7 +17,7 @@ namespace Dsa.RapidResponse
     [Authorize(Roles = "Administrator")]
     public class InitiateController : Controller
     {
-        public InitiateController(IMessagingService messaging, ComradeDbContext db, UserManager<IdentityUser> userManager)
+        public InitiateController(IMessagingService messaging, ComradeDbContext db, UserManager<ApplicationUser> userManager)
         {
             _messaging = messaging;
             _db = db;
@@ -65,7 +65,7 @@ namespace Dsa.RapidResponse
             return View();
         }
 
-        private IList<IdentityUser> GetAvailableUsers()
+        private IList<ApplicationUser> GetAvailableUsers()
         {
             var now = DateTime.Now.TimeOfDay;
             var day = (int)DateTime.Now.DayOfWeek;
@@ -80,7 +80,7 @@ namespace Dsa.RapidResponse
 
         private readonly IMessagingService _messaging;
         private readonly ComradeDbContext _db;
-        private UserManager<IdentityUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
     }
 
     public class NewActionModel

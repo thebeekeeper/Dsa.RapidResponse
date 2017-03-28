@@ -15,7 +15,7 @@ namespace Dsa.RapidResponse
 {
     public class AvailabilityController : Controller
     {
-        public AvailabilityController(ComradeDbContext context, UserManager<IdentityUser> userManager)
+        public AvailabilityController(ComradeDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -75,7 +75,7 @@ namespace Dsa.RapidResponse
         }
 
         private readonly ComradeDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         private List<string> _days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
     }

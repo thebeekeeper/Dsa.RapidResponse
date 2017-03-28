@@ -46,7 +46,8 @@ namespace Dsa.RapidResponse
                 throw new Exception("Connection string not found");
 
             services.AddDbContext<ComradeDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ComradeDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -55,7 +56,7 @@ namespace Dsa.RapidResponse
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ComradeDbContext dbContext, UserManager<IdentityUser> userManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ComradeDbContext dbContext)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -79,15 +80,7 @@ namespace Dsa.RapidResponse
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            DbInit.Init(dbContext, userManager);
-        }
-    }
-
-    public class DbInit
-    {
-        public static void Init(ComradeDbContext context, UserManager<IdentityUser> userManager)
-        {
-            context.Database.Migrate();
+            dbContext.Database.Migrate();
         }
     }
 }

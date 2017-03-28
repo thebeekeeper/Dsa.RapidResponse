@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Dsa.RapidResponse.Services
 {
@@ -14,5 +11,11 @@ namespace Dsa.RapidResponse.Services
         public string Title { get; set; }
         public string ExternalLink { get; set; }
         public string Details { get; set; }
+        //public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+
+        public Event()
+        {
+            //ApplicationUsers = new List<ApplicationUser>();
+        }
     }
 }

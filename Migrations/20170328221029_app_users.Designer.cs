@@ -8,9 +8,10 @@ using Dsa.RapidResponse.Implementations;
 namespace Dsa.RapidResponse.Migrations
 {
     [DbContext(typeof(ComradeDbContext))]
-    partial class ComradeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170328221029_app_users")]
+    partial class app_users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

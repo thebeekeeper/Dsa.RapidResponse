@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Dsa.RapidResponse.Implementations
 {
-    public class ComradeDbContext : IdentityDbContext
+    public class ComradeDbContext : IdentityDbContext<ApplicationUser>
     {
         public ComradeDbContext(DbContextOptions options) : base(options)
         {
@@ -12,6 +12,7 @@ namespace Dsa.RapidResponse.Implementations
 
         public DbSet<Availability> Availabilities { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<ApplicationUser> AppUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

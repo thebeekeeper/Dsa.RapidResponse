@@ -16,7 +16,7 @@ namespace Dsa.RapidResponse
     [Authorize(Roles = "Administrator")]
     public class ManagementController : Controller
     {
-        public ManagementController(ComradeDbContext db, UserManager<IdentityUser> userManager)
+        public ManagementController(ComradeDbContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
             _userManager = userManager;
@@ -33,6 +33,6 @@ namespace Dsa.RapidResponse
         }
 
         private ComradeDbContext _db;
-        private UserManager<IdentityUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
     }
 }
