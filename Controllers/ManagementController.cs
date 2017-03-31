@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Dsa.RapidResponse.Services;
@@ -25,9 +26,33 @@ namespace Dsa.RapidResponse
             return View();
         }
 
-        public IActionResult Users()
+        public async Task<IActionResult> Users()
         {
-            var u = _db.AppUsers;
+            /*var u = (from x in _db.AppUsers
+                select new UserModel()
+                {
+                    Id  = x.Id,
+                    PhoneNumber = x.PhoneNumber,
+                    Email = x.Email,
+                }).ToList();
+            foreach(var user in u)
+                user.IsAdmin = _userManager.IsInRoleAsync(user, "Administrator").Result;
+                */
+            var users = _db.AppUsers.ToList();
+            var u = new List<UserModel>();
+            foreach(var x in users)
+            {
+                var isAdmin = await _userManager.IsInRoleAsync(x, "Administrator");
+                //var isAdmin = true;
+                u.Add(new UserModel()
+                {
+                    IsAdmin = isAdmin,
+                    Id = x.Id,
+                    PhoneNumber = x.PhoneNumber,
+                    Email = x.Email
+                });
+            }
+                
             return View(u);
         }
 
@@ -45,6 +70,14 @@ namespace Dsa.RapidResponse
                     End = DateTime.Today.AddMinutes(Convert.ToDouble(y.EndMinute)),
                 }).OrderBy(m => m.DayOfWeek).ToList();
             return View(availability);
+        }
+
+        public async Task<IActionResult> MakeAdmin(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Administrator"));
+
+            return RedirectToAction("Users");
         }
 
         public async Task<IActionResult> DeleteUser(string id)
