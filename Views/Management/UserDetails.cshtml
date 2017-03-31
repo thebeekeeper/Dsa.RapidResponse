@@ -2,14 +2,11 @@
 
 <div id="container">
     <h2>
-        Your Current Availability
+        User Availability
     </h2>
     <table class="table">
     <thead>
         <tr>
-            <th>
-                Edit
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.DayOfWeek)
             </th>
@@ -27,9 +24,6 @@
         {
             <tr>
                 <td>
-                    <a asp-area-"" asp-controller="Availability" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.DayOfWeek)
                 </td>
                 <td>
@@ -46,12 +40,5 @@
         }
     </tbody>
 </table>
-    <div>
-        <p class="text-muted">
-            Click below to add a new time that you can be available to respond when needed.
-        </p>
-        <p>
-        <a asp-area-"" asp-controller="Availability" asp-action="Add">Add Availability</a>
-        </p>
-    </div>
+
 </div>

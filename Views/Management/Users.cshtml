@@ -1,3 +1,55 @@
+@model IEnumerable<Dsa.RapidResponse.Services.ApplicationUser>
 
-
-Nothing here yet ;(
+<div id="container">
+    <h2>
+        Comrades
+    </h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            @if(User.IsInRole("Administrator")) {
+                <th>
+                    Edit
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-area-"" asp-controller="Management" asp-action="UserDetails" asp-route-id="@item.Id">Details</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    <a asp-area-"" asp-controller="Management" asp-action="DeleteUser" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if(User.IsInRole("Administrator")) {
+    <div>
+        <p class="text-muted">
+            Click below to add a new user
+        </p>
+        <p>
+        <a asp-area-"" asp-controller="Management" asp-action="AddUser">Add User</a>
+        </p>
+    </div>
+}
+</div>

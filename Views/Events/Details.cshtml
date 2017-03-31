@@ -19,4 +19,10 @@
             @Html.Raw(Model.Details)
         </markdown>
     </p>
+
+    @if (User.Identity.IsAuthenticated) {
+    <p>
+        <a asp-area-"" asp-controller="Events" asp-action="SignUp" asp-route-id="@Model.Id">I'll be there!</a>
+    </p>
+    }
 </div>

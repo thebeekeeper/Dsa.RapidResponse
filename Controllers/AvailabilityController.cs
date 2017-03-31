@@ -2,20 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Security.Claims;
 using Dsa.RapidResponse.Implementations;
 using Dsa.RapidResponse.Services;
+using Dsa.RapidResponse.Models;
 
 // this mostly came from http://www.blinkingcaret.com/2016/11/30/asp-net-identity-core-from-scratch/
 namespace Dsa.RapidResponse
 {
     public class AvailabilityController : Controller
     {
-        public AvailabilityController(ComradeDbContext context, UserManager<IdentityUser> userManager)
+        public AvailabilityController(ComradeDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -75,24 +73,9 @@ namespace Dsa.RapidResponse
         }
 
         private readonly ComradeDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         private List<string> _days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
     }
 
-    public class AvailabilityModel
-    {
-        public int Id { get; set; }
-
-        [Display(Name = "Day of the week")]
-        public string DayOfWeek { get; set; }
-        // TimeSpan might work better for these, but I don't see a html helper for them
-        [Display(Name = "Start Time")]
-        //public TimeSpan? Start { get; set; }
-        //public string Start { get; set; }
-        public DateTime Start { get; set; }
-        [Display(Name = "End Time")]
-        public DateTime End { get; set; }
-        //public TimeSpan End { get; set; }
-    }
 }
