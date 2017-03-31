@@ -1,4 +1,4 @@
-@model IEnumerable<Dsa.RapidResponse.Services.ApplicationUser>
+@model IEnumerable<Dsa.RapidResponse.Models.UserModel>
 
 <div id="container">
     <h2>
@@ -36,12 +36,19 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
+                    @if(item.IsAdmin) {
+                        <div>Administrator</div>
+                    }
+                    else {
+                        <a asp-area-"" asp-controller="Management" asp-action="MakeAdmin" asp-route-id="@item.Id">Add Admin</a>
+                    }
                     <a asp-area-"" asp-controller="Management" asp-action="DeleteUser" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<!--
 @if(User.IsInRole("Administrator")) {
     <div>
         <p class="text-muted">
@@ -52,4 +59,5 @@
         </p>
     </div>
 }
+-->
 </div>
