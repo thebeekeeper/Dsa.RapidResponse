@@ -6,5 +6,8 @@ namespace Dsa.RapidResponse.Services
     public class ApplicationUser : IdentityUser
     {
         //public virtual ICollection<Event> Events { get; set; }
+        public ApplicationUser()
+        {
+        }
     }
 }
