@@ -1,4 +1,4 @@
-@model Dsa.RapidResponse.Services.Event
+@model Dsa.RapidResponse.Models.EventDetailsModel
 
 <div id="container">
     <h2>
@@ -20,9 +20,36 @@
         </markdown>
     </p>
 
+    <br/>
     @if (User.Identity.IsAuthenticated) {
+    <h3>
+        @Model.UserCount people are going
+    </h3>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+    }
+
+
+    @if (User.Identity.IsAuthenticated && Model.CanRsvp) {
     <p>
-        <a asp-area-"" asp-controller="Events" asp-action="SignUp" asp-route-id="@Model.Id">I'll be there!</a>
+        <a asp-area-"" asp-controller="Events" asp-action="SignUp" asp-route-id="@Model.EventId">I'll be there!</a>
     </p>
     }
 </div>
