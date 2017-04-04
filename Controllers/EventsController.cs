@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -26,14 +27,29 @@ namespace Dsa.RapidResponse
             return View(events);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var entity = _db.Events.FirstOrDefault(e => e.Id == id);
-            if(entity != default(Event))
+            var entity = _db.Events.Where(e => e.Id == id).Include(e => e.EventUsers).ThenInclude(x => x.User).First();
+            var users = entity.EventUsers.Select(x => x.User);
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var model = new Models.EventDetailsModel()
             {
-                return View(entity);
-            }
-            return Redirect("/");
+                EventId = entity.Id,
+                Title = entity.Title,
+                Time = entity.Time,
+                ExternalLink = entity.ExternalLink,
+                Details = entity.Details,
+                UserCount = users.Count(),
+                CanRsvp = users.Any(x => x.Id.Equals(currentUser.Id)) == false,
+                Users = from u in users
+                    select new Models.UserModel()
+                    {
+                        Id = u.Id,
+                        Email = u.Email,
+                        PhoneNumber = u.PhoneNumber
+                    }
+            };
+            return View(model);
         }
 
         // GET
@@ -89,12 +105,16 @@ namespace Dsa.RapidResponse
 
         public async Task<IActionResult> SignUp(int id)
         {
-            /*var evt = _db.Events.FirstOrDefault(e => e.Id == id);
+            var evt = _db.Events.FirstOrDefault(e => e.Id == id);
             var u = await _userManager.GetUserAsync(HttpContext.User);
-            evt.Users.Add(u);
-            _db.SaveChanges();*/
+            evt.EventUsers.Add(new EventUser()
+            {
+                User = u,
+                Event = evt,
+            });
+            _db.SaveChanges();
             
-            return Redirect("/");
+            return RedirectToAction("Events");
         }
 
         private ComradeDbContext _db;
