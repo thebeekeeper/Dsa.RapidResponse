@@ -114,7 +114,7 @@ namespace Dsa.RapidResponse
             });
             _db.SaveChanges();
             
-            return RedirectToAction("Events");
+            return RedirectToAction("Details", new { id = id });
         }
 
         private ComradeDbContext _db;
